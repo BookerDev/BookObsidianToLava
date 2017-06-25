@@ -29,24 +29,23 @@ public class ObsidianToLava implements Listener {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
 	public void onClickBlock(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
-		if(p.getItemInHand().getType().equals(Material.BUCKET)) {
+		if(p.getInventory().getItemInMainHand().getType().equals(Material.BUCKET)) {
 			if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 				Block b = e.getClickedBlock();
 				if (b.getType().equals(Material.OBSIDIAN)) {
 					if(obsidian.contains(b.getLocation())) {
-						if (p.getItemInHand().getAmount() > 1) {
-							p.getItemInHand().setAmount(p.getItemInHand().getAmount() - 1);
+						if (p.getInventory().getItemInMainHand().getAmount() > 1) {
+							p.getInventory().getItemInMainHand().setAmount(p.getInventory().getItemInMainHand().getAmount() - 1);
 							p.getInventory().addItem(new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
 							b.setType(Material.AIR);
 							obsidian.remove(b.getLocation());
 							e.setCancelled(true);
 							p.playSound(p.getLocation(), Sound.ITEM_BUCKET_FILL_LAVA, 1, 1);
 						} else {
-							p.getInventory().removeItem(p.getItemInHand());
+							p.getInventory().removeItem(p.getInventory().getItemInMainHand());
 							p.getInventory().addItem(new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
 							b.setType(Material.AIR);
 							obsidian.remove(b.getLocation());
